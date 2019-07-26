@@ -63,9 +63,9 @@ def call(Closure context) {
 			echo 'stage build'
 			// TODO add build task
 			// check branch selecreenv.getEnvironment().containsKey("VERSION")
-			steps{
+			
 				sh 'mvn -B -DskipTests clean package'
-			}
+			
 			
 		}
 
