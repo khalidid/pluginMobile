@@ -7,12 +7,15 @@ def call(Closure context) {
 	context()
 
 	node {
+		
 		stage('clean') {
 			echo "Clean projet : ${config.projectName}"
 			deleteDir()
 		}
 
+		
 		stage('checkout') {
+		
 			echo 'stage checkout'
 			def gitUrl = config.gitUrl
 			def credentialsId = config.credentialsId
@@ -20,7 +23,9 @@ def call(Closure context) {
 			echo "GIT URL $gitUrl"
 			echo "CREDENTIALS ID $credentialsId"
 
+			
 			def branch = "master"
+			
 			if (env.getEnvironment().containsKey("BRANCH")) {
 				branch = BRANCH
 			}
@@ -32,6 +37,7 @@ def call(Closure context) {
 			}
 		}
 
+		
 		stage('configure') {
 			echo 'stage configure'
 			def branches = "master\ndevelop"
@@ -57,6 +63,10 @@ def call(Closure context) {
 			echo 'stage build'
 			// TODO add build task
 			// check branch selecreenv.getEnvironment().containsKey("VERSION")
+			steps{
+				sh 'mvn -B -DskipTests clean package'
+			}
+			
 		}
 
 		stage('release') {
