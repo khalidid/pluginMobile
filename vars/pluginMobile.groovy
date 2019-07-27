@@ -64,7 +64,19 @@ def call(Closure context) {
 			// TODO add build task
 			// check branch selecreenv.getEnvironment().containsKey("VERSION")
 			
-				sh 'mvn -B -DskipTests clean package'
+				 withMaven(
+        // Maven installation declared in the Jenkins "Global Tool Configuration"
+         maven: 'Maven',
+        // Maven settings.xml file defined with the Jenkins Config File Provider Plugin
+        // We recommend to define Maven settings.xml globally at the folder level using
+        // navigating to the folder configuration in the section "Pipeline Maven Configuration / Override global Maven configuration"
+        // or globally to the entire master navigating to  "Manage Jenkins / Global Tools Configuration"
+        mavenSettingsConfig: 'adcc38ae-a77e-488f-8de9-569e537ec582') {
+ 
+      // Run the maven build
+      sh "mvn clean verify"
+ 
+    } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe & FindBugs & SpotBugs reports...
 			
 			
 		}
